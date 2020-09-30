@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Banuba SDK Web AR demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://download.agora.io/sdk/web/AgoraRTC_N-4.1.0.js"></script>
+</head>
+
+<body class="ui container">
+  <aside>     
+    <div id="webar">
+      <button class="ui icon button" id="sound">
+        <i class="volume up icon"></i>
+      </button>
+    </div>
+    <div id="effect-controls">
+      <h2>Select an effect:</h2>
+      <button class="circular ui icon button" id="reset" title="Reset">
+        <i class="undo icon"></i>
+      </button>
+    </div>
+    <div id="effects"></div>
+  </aside>
+  <main></main>
+
+  <script src="AgoraAppId.js"></script>
+  <script src="BanubaClientToken.js"></script>
+  <script type="module">
+    import { Effect, Webcam, Player, Dom, MediaStreamCapture } from "./BanubaSDK.js"
+
+    const effects = [
+      "Afro",
+      "PoliceMan",
+      "Glasses",
+      "MonsterFactory",
+      "Spider",
+    ]
+
+    ;(async () => {    
+      //#region web ar setup
+      const player = await Player.create({ clientToken: window.BANUBA_CLIENT_TOKEN })
+
+      player.use(new Webcam({ width: 640, height: 480 }))
+
+      Dom.render(player, "#webar")
+
+      //#region effects
+      $.each(effects, async (idx, effectName) => {
+        const btn = $(
+          `<button class="ui tertiary button elastic loading">
+            ${effectName}
+          </button>`
+        )
+        .prependTo("#effects")
+
+        const effect = await Effect.preload(`effects/${effectName}.zip`)
+
+        btn.on("click", () => player.applyEffect(effect))
+        btn.removeClass("loading")
+      })
+      $("#reset").on("click", () => player.clearEffect())
+      //#endregion
+      //#endregion
+
+      //#agora set up
+      const client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" })
+
+      client.on("user-published", async (user, mediaType) => {
+        await client.subscribe(user, mediaType);
+        if (mediaType === "video") user.videoTrack.play($("main")[0]);
+        if (mediaType === "audio") user.audioTrack.play();
+      })
+
+      //#region participants view set up
+      const adjustParticipantsView = () => {
+        const usersCount = client.remoteUsers.length
+        const columnsCount = Math.ceil(Math.sqrt(usersCount))
+        $("main").css("grid-template-columns", `repeat(${columnsCount}, 1fr)`)
+      }
+      client.on("user-joined", adjustParticipantsView)
+      client.on("user-left", adjustParticipantsView)
+      //#endregion
+
+      await client.join(window.AGORA_APP_ID, "test", null)
+      //endregion
+
+      //#region Banuba Web AR SDK and Agora Web SDK integration
+      const stream = new MediaStreamCapture(player)
+      const video = await AgoraRTC.createCustomVideoTrack({ mediaStreamTrack: stream.getVideoTrack() })
+      //#endregion
+
+      const audio = await AgoraRTC.createMicrophoneAudioTrack()
+      await client.publish([ video, audio ])
+
+      //#region sound
+      let volume = 100
+      const toggleSound = () => {
+        volume = volume ? 0 : 100
+        audio.setVolume(volume)
+        $("#sound > i").toggleClass("up mute")
+      }
+
+      $("#sound").on("click", toggleSound)
+      //#endregion
+    })()
+  </script>
+</body>
+
+</html>

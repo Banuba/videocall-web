@@ -1,0 +1,1 @@
+window.AGORA_APP_ID = "PUT YOUR APP ID HERE"
