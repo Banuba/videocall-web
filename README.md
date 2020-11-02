@@ -57,7 +57,7 @@ Insert Agora [App ID](https://docs.agora.io/en/Agora%20Platform/term_appid) into
 window.AGORA_APP_ID = "PUT YOUR APP ID HERE"
 ```
 
-### Test by self
+### Test by yourself
 
 Run the live server in the cloned folder
 ```sh
@@ -100,7 +100,7 @@ videocall-web/
    styles.css
 ```
 
-Add the effect name into `effects` array at [index.html, line 38](/index.html#L65)
+Add the effect name into `effects` array at [index.html, line 38](/index.html#L38)
 
 ```diff
 <script type="module">
