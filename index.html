@@ -68,7 +68,7 @@
       //#endregion
       //#endregion
 
-      //#agora set up
+      //#region agora set up
       const client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" })
 
       client.on("user-published", async (user, mediaType) => {
@@ -77,7 +77,7 @@
         if (mediaType === "audio") user.audioTrack.play();
       })
 
-      //#region participants view set up
+      //#region participants view
       const adjustParticipantsView = () => {
         const usersCount = client.remoteUsers.length
         const columnsCount = Math.ceil(Math.sqrt(usersCount))
