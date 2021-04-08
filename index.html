@@ -26,7 +26,20 @@
       </button>
     </div>
     <div id="effects"></div>
+    <div class="fps-container">
+      <p class="ui horizontal divider header">
+        fps
+      </p>
+      <span id="fps">
+          Webcam FPS: <span id="cam"></span>
+        </br>
+        Processing FPS: <span id="processing"></span>
+        </br>
+        Render FPS: <span id="render"></span>
+      </span>
+    </div>
   </aside>
+
   <main></main>
 
   <script src="AgoraAppId.js"></script>
@@ -42,13 +55,33 @@
       "Spider",
     ]
 
-    ;(async () => {    
-      //#region web ar setup
+    ;(async () => {
+      const wcam = new Webcam({ width: 640, height: 480 })
       const player = await Player.create({ clientToken: window.BANUBA_CLIENT_TOKEN })
 
-      player.use(new Webcam({ width: 640, height: 480 }))
+      player.use(wcam)
 
       Dom.render(player, "#webar")
+
+      //#region fps
+      const fps = {
+        cam: 0,
+        processing: 0,
+        render: 0,
+      }
+      player.addEventListener("framereceived", () => fps.cam++)
+      player.addEventListener("frameprocessed", ({ detail }) => fps.processing = 1. / detail.averagedDuration)
+      player.addEventListener("framerendered", () => fps.render++)
+
+      setInterval(() => {
+        Object
+                .entries(fps)
+                .forEach(([name, value]) => {
+                  fps[name] = 0
+                  $(`#${name}`).text(value.toFixed(1))
+                })
+      }, 1000)
+      //#endregion
 
       //#region effects
       $.each(effects, async (idx, effectName) => {

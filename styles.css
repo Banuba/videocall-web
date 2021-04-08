@@ -10,6 +10,12 @@ aside {
   margin-right: 1rem;
 }
 
+.fps-container {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+
 main {
   position: relative;
   overflow: hidden;
