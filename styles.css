@@ -10,6 +10,22 @@ aside {
   margin-right: 1rem;
 }
 
+.fps-container {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+
+.ui.sub.header {
+  display:flex;
+  flex-direction: column;
+}
+
+.ui.dropdown.selection {
+
+  margin-top: 4px;
+}
+
 main {
   position: relative;
   overflow: hidden;
