@@ -38,6 +38,7 @@ videocall-web/
 +  BanubaSDK.data
 +  BanubaSDK.js
 +  BanubaSDK.wasm
++  BanubaSDK.simd.wasm
    index.html
    LICENSE
    peer.html
@@ -83,12 +84,11 @@ Zip the effect folder and put it under the `effects/` subfolder
 ```diff
 videocall-web/
    effects/
-     Afro.zip
-     PoliceMan.zip
-     Glasses.zip
-     MonsterFactory.zip
+     Background.zip
+     Earring.zip
+     glasses_Banuba.zip
+     Hipster3.zip
 +    NewEffect.zip
-     Spider.zip
    AgoraAppId.js
    BanubaClientToken.js
    BanubaSDK.data
@@ -108,10 +108,9 @@ Add the effect name into `effects` array at [index.html, line 38](/index.html#L3
 
   const effects = [
 +   "NewEffect",
-    "Afro",
-    "PoliceMan",
-    "Glasses",
-    "MonsterFactory",
-    "Spider",
+    "Background",
+    "Earring",
+    "glasses_Banuba",
+    "Hipster3",
   ]
 ```
