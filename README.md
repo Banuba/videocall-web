@@ -1,5 +1,8 @@
-# Banuba Web AR SDK and Agora Web SDK integration example
-
+# Banuba Web AR SDK and Agora Web SDK integration example  
+  
+**Important**  
+Please use [v0.x](../../tree/v0.x) branch for SDK version 0.x (e.g. v0.38).  
+  
 ## Requirements
 
 - The [latest](#obtaining-banuba-sdk-web-ar) Banuba SDK Web AR release
