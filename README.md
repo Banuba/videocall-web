@@ -5,7 +5,6 @@ Please use [v0.x](../../tree/v0.x) branch for SDK version 0.x (e.g. v0.38).
   
 ## Requirements
 
-- The [latest](#obtaining-banuba-sdk-web-ar) Banuba SDK Web AR release
 - Banuba [client token](#obtaining-banuba-client-token)
 - Agora [App ID](https://docs.agora.io/en/Agora%20Platform/term_appid)
 - [Nodejs](https://nodejs.org/en/) installed
@@ -13,7 +12,7 @@ Please use [v0.x](../../tree/v0.x) branch for SDK version 0.x (e.g. v0.38).
 
 ### Obtaining Banuba SDK Web AR
 
-To get the latest Banuba SDK Web AR release please fill in the [form on banuba.com](https://www.banuba.com/face-filters-sdk) website, or contact us via [info@banuba.com](mailto:info@banuba.com).
+The example uses CDN version of the [@banuba/webar](https://www.npmjs.com/package/@banuba/webar) npm package for simplicity. Please use the npm package mentioned above for real world projects. Check out the [Integration tutorials](https://docs.banuba.com/face-ar-sdk-v1/web/web_tutorials_integrations) for more ways of consuming [@banuba/webar](https://www.npmjs.com/package/@banuba/webar) package.
 
 ### Obtaining Banuba Client token
 
@@ -29,24 +28,6 @@ Clone the repository
 
 ```sh
 git clone https://github.com/Banuba/videocall-web
-```
-
-Put Banuba SDK Web AR [files](#obtaining-banuba-sdk-web-ar) into the cloned folder
-
-```diff
-videocall-web/
-   effects/
-   AgoraAppId.js
-   BanubaClientToken.js
-+  BanubaSDK.data
-+  BanubaSDK.js
-+  BanubaSDK.wasm
-+  BanubaSDK.simd.wasm
-   index.html
-   LICENSE
-   peer.html
-   README.md
-   styles.css
 ```
 
 Insert Banuba [client token](#obtaining-banuba-client-token) into `BanubaClientToken.js`
@@ -94,21 +75,16 @@ videocall-web/
 +     new_effect.zip
    AgoraAppId.js
    BanubaClientToken.js
-   BanubaSDK.data
-   BanubaSDK.js
-   BanubaSDK.wasm
    index.html
    LICENSE
    README.md
    styles.css
 ```
 
-Add the effect name into `effects` array at [index.html, line 38](/index.html#L38)
+Add the effect name into `effects` array at [index.html, line 50](/index.html#L50)
 
 ```diff
 <script type="module">
-  import { Effect, Webcam, Player, VideoRecorder, ImageCapture, Dom } from "./BanubaSDK.js"
-
   const effects = [
 +   "new_effect",
     "Glasses",
