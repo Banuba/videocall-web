@@ -45,7 +45,7 @@
   <script src="AgoraAppId.js"></script>
   <script src="BanubaClientToken.js"></script>
   <script type="module">
-    import { Effect, Webcam, Player, Dom, MediaStreamCapture } from "./BanubaSDK.js"
+    import { Effect, Webcam, Player, Module, Dom, MediaStreamCapture } from "https://cdn.jsdelivr.net/npm/@banuba/webar/dist/BanubaSDK.browser.esm.min.js"
 
     const effects = [
       "Glasses",
@@ -56,7 +56,17 @@
 
     ;(async () => {
       const wcam = new Webcam({ width: 640, height: 480 })
-      const player = await Player.create({ clientToken: window.BANUBA_CLIENT_TOKEN })
+      const [player, modules] = await Promise.all([
+        Player.create({
+          devicePixelRatio: 1,
+          clientToken: window.BANUBA_CLIENT_TOKEN,
+        }),
+        // Find more about available modules:
+        // https://docs.banuba.com/face-ar-sdk-v1/generated/typedoc/classes/Module.html
+        Module.preload(["background", "face_tracker"].map(m => `https://cdn.jsdelivr.net/npm/@banuba/webar/dist/modules/${m}.zip`)),
+      ])
+
+      await player.addModule(...modules)
 
       player.use(wcam)
 
