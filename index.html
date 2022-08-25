@@ -45,7 +45,7 @@
   <script src="AgoraAppId.js"></script>
   <script src="BanubaClientToken.js"></script>
   <script type="module">
-    import { Effect, Webcam, Player, Module, Dom, MediaStreamCapture } from "https://cdn.jsdelivr.net/npm/@banuba/webar@1.5.0-beta.12/dist/BanubaSDK.browser.esm.min.js"
+    import { Effect, Webcam, Player, Module, Dom, MediaStreamCapture } from "https://cdn.jsdelivr.net/npm/@banuba/webar/dist/BanubaSDK.browser.esm.min.js"
 
     const effects = [
       "Glasses",
@@ -63,7 +63,7 @@
         }),
         // Find more about available modules:
         // https://docs.banuba.com/face-ar-sdk-v1/generated/typedoc/classes/Module.html
-        Module.preload(["background", "face_tracker"].map(m => `https://cdn.jsdelivr.net/npm/@banuba/webar@1.5.0-beta.12/dist/modules/${m}.zip`)),
+        Module.preload(["background", "face_tracker"].map(m => `https://cdn.jsdelivr.net/npm/@banuba/webar/dist/modules/${m}.zip`)),
       ])
 
       await player.addModule(...modules)
