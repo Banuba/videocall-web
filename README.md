@@ -6,7 +6,7 @@ Please use [v0.x](../../tree/v0.x) branch for SDK version 0.x (e.g. v0.38).
 ## Requirements
 
 - Banuba [client token](#obtaining-banuba-client-token)
-- Agora [App ID](https://docs.agora.io/en/Agora%20Platform/term_appid)
+- Agora [App ID](https://docs.agora.io/en/Agora%20Platform/term_appid), [Token](https://docs.agora.io/en/video-calling/reference/glossary?platform=ios#token) and [Channel](https://docs.agora.io/en/video-calling/reference/glossary?platform=ios#channel) name
 - [Nodejs](https://nodejs.org/en/) installed
 - Browser with support of [WebGL 2.0](https://caniuse.com/#feat=webgl2)
 
@@ -36,10 +36,12 @@ Insert Banuba [client token](#obtaining-banuba-client-token) into `BanubaClientT
 window.BANUBA_CLIENT_TOKEN = "PUT YOUR CLIENT TOKEN HERE"
 ```
 
-Insert Agora [App ID](https://docs.agora.io/en/Agora%20Platform/term_appid) into `AgoraAppId.js`
+Insert Agora [App ID](https://docs.agora.io/en/Agora%20Platform/term_appid), [Token](https://docs.agora.io/en/video-calling/reference/glossary?platform=ios#token) and [Channel](https://docs.agora.io/en/video-calling/reference/glossary?platform=ios#channel) name into `AgoraAppId.js`
 
 ```js
 window.AGORA_APP_ID = "PUT YOUR APP ID HERE"
+window.AGORA_TOKEN = "PUT YOUR TOKEN HERE"
+window.AGORA_CHANNEL_NAME = "PUT YOUR CHANNEL NAME HERE"
 ```
 
 ### Test by yourself

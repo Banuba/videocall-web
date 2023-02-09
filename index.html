@@ -129,8 +129,12 @@
       client.on("user-left", adjustParticipantsView)
       //#endregion
 
-      await client.join(window.AGORA_APP_ID, "test", null)
-      //endregion
+      await client.join(
+        window.AGORA_APP_ID,
+        window.AGORA_CHANNEL_NAME,
+        window.AGORA_TOKEN,
+      )
+      //#endregion
 
       //#region Banuba Web AR SDK and Agora Web SDK integration
       const stream = new MediaStreamCapture(player)
