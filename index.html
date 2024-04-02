@@ -55,6 +55,7 @@
     ]
 
     ;(async () => {
+      //#region banuba set up
       const wcam = new Webcam({ width: 640, height: 480 })
       const [player, modules] = await Promise.all([
         Player.create({
@@ -69,7 +70,6 @@
       await player.addModule(...modules)
 
       player.use(wcam)
-
       Dom.render(player, "#webar")
 
       //#region fps
@@ -79,7 +79,7 @@
         render: 0,
       }
       player.addEventListener("framereceived", () => fps.cam++)
-      player.addEventListener("frameprocessed", ({ detail }) => fps.processing = 1. / detail.averagedDuration)
+      player.addEventListener("frameprocessed", ({ detail }) => fps.processing = 1000. / detail.averagedDuration)
       player.addEventListener("framerendered", () => fps.render++)
 
       setInterval(() => {
@@ -113,6 +113,12 @@
       //#region agora set up
       const client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" })
 
+      await client.join(
+        window.AGORA_APP_ID,
+        window.AGORA_CHANNEL_NAME,
+        window.AGORA_TOKEN,
+      )
+
       client.on("user-published", async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         if (mediaType === "video") user.videoTrack.play($("main")[0]);
@@ -128,21 +134,15 @@
       client.on("user-joined", adjustParticipantsView)
       client.on("user-left", adjustParticipantsView)
       //#endregion
-
-      await client.join(
-        window.AGORA_APP_ID,
-        window.AGORA_CHANNEL_NAME,
-        window.AGORA_TOKEN,
-      )
       //#endregion
 
       //#region Banuba Web AR SDK and Agora Web SDK integration
       const stream = new MediaStreamCapture(player)
       const video = await AgoraRTC.createCustomVideoTrack({ mediaStreamTrack: stream.getVideoTrack() })
-      //#endregion
-
       const audio = await AgoraRTC.createMicrophoneAudioTrack()
+
       await client.publish([ video, audio ])
+      //#endregion
 
       //#region sound
       let volume = 100
